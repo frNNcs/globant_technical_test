@@ -1,15 +1,20 @@
-from typing import Union
-
+import httpx
 from fastapi import FastAPI
 
 app = FastAPI()
 
 
-@app.get("/")
+@app.get("/allBerryStats")
 async def read_root():
-    return {"Hello": "World"}
-
-
-@app.get("/items/{item_id}")
-async def read_item(item_id: int, q: Union[str, None] = None):
-    return {"item_id": item_id, "q": q}
+    results = httpx.get("https://pokeapi.co/api/v2/berry/")
+    if results.status_code != 200:
+        return {
+            'error': 'Could not retrieve data'
+        }
+    return {
+        'berries_names': [
+            result['name']
+            for result
+            in results.json()['results']
+        ]
+    }

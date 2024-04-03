@@ -1,5 +1,6 @@
 {
     "explorer.fileNesting.patterns": {
         "main.py": ".editorconfig, .flake8, .python-version, .dockerignore, *.code-workspace, .gitignore"
-    }
+    },
+    "python.analysis.typeCheckingMode": "basic"
 }
