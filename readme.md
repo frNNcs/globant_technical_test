@@ -1,6 +1,20 @@
 # Prueba tecnica Globant
 A Poke-berries statistics API.
 
+## Commands
+
+### Start flask server
+```bash
+uvicorn main:app --reload --port 8001
+```
+### Test
+```bash
+curl -X GET http://127.0.0.1:8001/allBerryStats
+```
+
+## Data
+- [Pokeapi/berries](https://pokeapi.co/docs/v2#berries)
+
 ## Tools
 - [FastApi](https://github.com/tiangolo/fastapi)
 - [Pydantic](https://github.com/pydantic/pydantic)
