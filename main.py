@@ -19,8 +19,14 @@ async def read_root():
     async def fetch_berry_growth_time(id: int):
         async with httpx.AsyncClient() as client:
             berry = await client.get(f"{POKEAPI_URL}/berry/{id}/")
-            berry.raise_for_status()  # Raises an HTTPError if one occurred
+            berry.raise_for_status()
             return berry.json()['growth_time']
+
+    def _(hour: float) -> str:
+        if hour > 24:
+            return f"{hour // 24} days and {hour % 24} hours"
+        else:
+            return f"{hour} hours"
 
     berries_names_list = []
     request_tasks = []
@@ -45,13 +51,13 @@ async def read_root():
 
     return {
         'berries_names': berries_names_list,
-        'min_growth_time': min(berry_growth_times),
-        'median_growth_time': sum(berry_growth_times) / len(berry_growth_times),
-        'max_growth_time': max(berry_growth_times),
-        'variance_growth_time': max(berry_growth_times) - min(berry_growth_times),
-        'mean_growth_time': sum(berry_growth_times) / len(berry_growth_times),
+        'min_growth_time': _(min(berry_growth_times)),
+        'median_growth_time': _(sum(berry_growth_times) / len(berry_growth_times)),
+        'max_growth_time': _(max(berry_growth_times)),
+        'variance_growth_time': _(max(berry_growth_times) - min(berry_growth_times)),
+        'mean_growth_time': _(sum(berry_growth_times) / len(berry_growth_times)),
         'frequency_growth_time': dict(collections.OrderedDict({
             time: berry_growth_times.count(time)
             for time in berry_growth_times
-        })),
+        }))
     }
