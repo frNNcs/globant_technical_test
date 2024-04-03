@@ -1,10 +1,13 @@
-from fastapi.testclient import TestClient
+import pytest
+from httpx import AsyncClient
 
 from main import app
 
-client = TestClient(app)
 
+@pytest.mark.asyncio
+async def test_allBerryStats_ok():
+    async with AsyncClient(app=app, base_url='http://test') as client:
+        response = await client.get('/allBerryStats')
 
-def test_allBerryStats_ok():
-    response = client.get('/allBerryStats')
     assert response.status_code == 200
+    assert len(response.json()['berries_names']) == 64
