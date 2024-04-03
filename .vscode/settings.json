@@ -1,6 +1,7 @@
 {
     "explorer.fileNesting.patterns": {
-        "main.py": ".editorconfig, .flake8, .python-version, .dockerignore, *.code-workspace, .gitignore"
+        "main.py": ".editorconfig, .flake8, .python-version, *.code-workspace, .gitignore, pytest.ini",
+        "docker-compose.yml": "Dockerfile, .dockerignore, Procfile"
     },
     "python.analysis.typeCheckingMode": "basic",
     "python.testing.pytestArgs": ["tests"],
