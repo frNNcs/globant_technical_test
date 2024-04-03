@@ -1,0 +1,34 @@
+[flake8]
+docstring-convention=numpy
+
+max-line-length = 88
+
+inline-quotes = double
+
+# Ignore some error codes for compatibility with async code and FastAPI
+ignore =
+    # E203: whitespace before ':'
+    E203,
+    # W503: line break before binary operator
+    W503,
+    # E731: do not assign a lambda expression, use a def
+    E731
+
+# Exclude directories or files from linting
+exclude =
+    .git,
+    __pycache__,
+    venv,
+    .mypy_cache,
+    .pytest_cache
+
+plugins = flake8-docstrings
+
+# Enable type hints checking (requires Flake8 >= 3.8)
+extend-ignore =
+    # E501: line too long (over 88 characters) - handled by Black or other formatters
+    E501,
+
+per-file-ignores =
+    # imported but unused
+    __init__.py: F401
