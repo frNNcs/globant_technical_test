@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from api.routes import berries
+from api.routes import berry
 
 app = FastAPI(
     title="PokeBerriesAPI",
@@ -9,7 +9,7 @@ app = FastAPI(
     docs_url="/",
 )
 
-app.include_router(berries.router)
+app.include_router(berry.router)
 
 if __name__ == "__main__":
     import uvicorn
