@@ -1,10 +1,18 @@
 import httpx
 
 from api.constants import POKEAPI_URL
+from api.models.berry import Berry
+
+
+async def fetch_berry(id: int):
+    async with httpx.AsyncClient() as client:
+        response = await client.get(f"{POKEAPI_URL}/berry/{id}/")
+        response.raise_for_status()
+
+        berry = Berry(**response.json())
+        return berry
 
 
 async def fetch_berry_growth_time(id: int):
-    async with httpx.AsyncClient() as client:
-        berry = await client.get(f"{POKEAPI_URL}/berry/{id}/")
-        berry.raise_for_status()
-        return berry.json()['growth_time']
+    berry = await fetch_berry(id)
+    return berry.growth_time

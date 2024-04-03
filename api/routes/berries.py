@@ -5,13 +5,19 @@ import httpx
 from fastapi import APIRouter
 
 from api.constants import ERRORS, POKEAPI_URL
+from api.models.berry import BerryStats
 from api.utils.api_utils import fetch_berry_growth_time
 from api.utils.helpers import convert_hour_to_human_redable as _
 
 router = APIRouter()
 
 
-@router.get("/allBerryStats")
+@router.get(
+    "/allBerryStats",
+    response_model=BerryStats,
+    tags=["berries"],
+    description="Get all berries stats! 🎉",
+)
 async def read_root():
     berries_names_list = []
     request_tasks = []
