@@ -1,1 +1,1 @@
-web: uvicorn main:app --workers 4 --port 80
+web: uvicorn main:app --workers 2 --port 80
