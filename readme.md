@@ -3,11 +3,11 @@ A Poke-berries statistics API.
 
 ## Commands
 
-### Start flask server
+### Start fast-api server
 ```bash
 uvicorn main:app --reload --port 8001
 ```
-### Test
+### test
 ```bash
 curl -X GET http://127.0.0.1:8001/allBerryStats
 ```
