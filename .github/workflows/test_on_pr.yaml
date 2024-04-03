@@ -28,7 +28,11 @@ jobs:
             - name: Lint with flake8
               run: |
                   flake8
+              env:
+                  PYTHONPATH: ${{ github.workspace }}
 
             - name: Test with pytest
               run: |
                   pytest
+              env:
+                  PYTHONPATH: ${{ github.workspace }}
