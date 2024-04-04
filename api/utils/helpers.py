@@ -1,6 +1,16 @@
 
 def convert_hour_to_human_redable(hour: float) -> str:
+    response : str = ''
     if hour > 24:
-        return f"{hour // 24} days and {hour % 24} hours"
+        response += f'{int(hour / 24)} day'
+        if int(hour / 24) > 1:
+            response += 's'
+        if hour % 24 != 0:
+            response += ' and '
+    if hour % 24 != 0:
+        response += f'{int(hour % 24)} hour'
+        if int(hour % 24) > 1:
+            response += 's'
     else:
-        return f"{hour} hours"
+        raise NotImplementedError()
+    return response
