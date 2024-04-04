@@ -3,6 +3,7 @@ import collections
 
 import httpx
 from fastapi import APIRouter
+from httpx import Response
 
 from api.constants import ERRORS, POKEAPI_URL
 from api.models.berry import BerryStats
@@ -19,10 +20,10 @@ router = APIRouter()
     description="Get all berries stats! 🎉",
 )
 async def read_root():
-    berries_names_list = []
-    request_tasks = []
+    berries_names_list : list[str] = []
+    request_tasks : list[asyncio.Task] = []
 
-    results = httpx.get(f"{POKEAPI_URL}/berry/?limit=500")
+    results: Response = httpx.get(f"{POKEAPI_URL}/berry/?limit=500")
 
     if results.status_code != 200:
         return {
@@ -32,15 +33,18 @@ async def read_root():
     for berry_url, berry_name in (
         (r['url'], r['name']) for r in results.json()['results']
     ):
-        berry_id = berry_url.split('/')[-2]
-        berry_growth_time = fetch_berry_growth_time(berry_id)
+        berry_id : int = berry_url.split('/')[-2]
 
-        request_tasks.append(berry_growth_time)
+        berry_growth_time_task = asyncio.create_task(
+            fetch_berry_growth_time(berry_id)
+        )
+
+        request_tasks.append(berry_growth_time_task)
         berries_names_list.append(berry_name)
 
     berry_growth_times = await asyncio.gather(*request_tasks)
 
-    return {
+    berries_stats = {
         'berries_names': berries_names_list,
         'min_growth_time': _(min(berry_growth_times)),
         'median_growth_time': _(sum(berry_growth_times) / len(berry_growth_times)),
@@ -52,3 +56,12 @@ async def read_root():
             for time in berry_growth_times
         }))
     }
+
+    try:
+        BerryStats.validate(berries_stats)
+    except ValueError:
+        return {
+            'error': ERRORS.INVALID_DATA
+        }
+
+    return berries_stats
