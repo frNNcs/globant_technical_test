@@ -30,6 +30,9 @@ class Berry(BaseModel):
     smoothness: int
     soil_dryness: int
 
+    def __str__(self):
+        return self.name
+
 
 class BerryStats(BaseModel):
     berries_names: list[str]
