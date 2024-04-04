@@ -3,9 +3,15 @@
         "main.py": ".editorconfig, .flake8, .python-version, *.code-workspace, .gitignore, pytest.ini",
         "docker-compose.yml": "Dockerfile, .dockerignore, Procfile"
     },
+
+    // hide __pycache__ folders
+    "files.exclude": {
+        "**/__pycache__": true
+    },
+    // Testing settings
+    "editor.defaultFormatter": "ms-python.flake8",
     "python.analysis.typeCheckingMode": "strict",
     "python.testing.pytestArgs": ["tests"],
-    "python.testing.unittestEnabled": false,
     "python.testing.pytestEnabled": true,
-    "editor.defaultFormatter": "ms-python.flake8"
+    "python.testing.unittestEnabled": false
 }
