@@ -12,5 +12,5 @@ def convert_hour_to_human_redable(hour: float) -> str:
         if int(hour % 24) > 1:
             response += 's'
     else:
-        raise NotImplementedError()
+        pass
     return response
