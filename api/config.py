@@ -6,7 +6,7 @@ from redis.asyncio.client import Redis
 
 load_dotenv()
 
-REDIS_URL = os.environ.get("REDIS_URL", "redis://localhost:6379")
+REDIS_URL = os.environ.get("REDIS_URL", "redis://redis:6379")
 CACHE_TIME = int(os.environ.get("CACHE_TIME", 60 * 60 * 10))
 
 redis_client : Redis = redis.Redis(
