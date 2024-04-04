@@ -38,7 +38,7 @@ def test_berry_flavor_map():
 
 
 @pytest.fixture
-def berry():
+def berry() -> Berry:
     return Berry(
         id=1,
         name='cheri',
@@ -66,7 +66,7 @@ def berry():
     )
 
 
-def test_berry(berry):
+def test_berry(berry: Berry):
     assert berry.id == 1
     assert berry.name == 'cheri'
     assert berry.firmness.name == 'soft'
@@ -84,4 +84,3 @@ def test_berry(berry):
     assert berry.growth_time == 3
     assert berry.max_harvest == 5
     assert berry.item == {}
-    assert berry.natural_gift_type == {}

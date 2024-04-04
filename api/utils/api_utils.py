@@ -9,10 +9,13 @@ async def fetch_berry(id: int) -> Berry:
         response = await client.get(f"{POKEAPI_URL}/berry/{id}/")
         response.raise_for_status()
 
-        berry = Berry(**response.json())
+        try:
+            berry = Berry(**response.json())
+        except Exception:
+            raise ValueError(f"Could not parse berry with id {id}")
         return berry
 
 
-async def fetch_berry_growth_time(id: int):
+async def fetch_berry_growth_time(id: int) -> int:
     berry = await fetch_berry(id)
     return berry.growth_time

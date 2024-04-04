@@ -10,6 +10,14 @@ class BaseAttribute(BaseModel):
         return int(self.url.split("/")[-2])
 
 
+class BerryItem(BaseAttribute):
+    pass
+
+
+class NaturalGiftType(BaseAttribute):
+    pass
+
+
 class BerryFirmness(BaseAttribute):
     pass
 
@@ -28,11 +36,11 @@ class Berry(BaseModel):
     firmness: BerryFirmness
     flavors: list[BerryFlavorMap]
     growth_time: int
-    item: dict
+    item: BerryItem
     max_harvest: int
     name: str
     natural_gift_power: int
-    natural_gift_type: dict
+    natural_gift_type: NaturalGiftType
     size: int
     smoothness: int
     soil_dryness: int
@@ -48,4 +56,4 @@ class BerryStats(BaseModel):
     max_growth_time: str
     variance_growth_time: str
     mean_growth_time: str
-    frequency_growth_time: dict[str, int]
+    frequency_growth_time: dict[int, int]

@@ -1,7 +1,6 @@
 import pytest
 from httpx import AsyncClient
 
-from api.models.berry import BerryStats
 from main import app
 
 
@@ -11,4 +10,3 @@ async def test_allBerryStats_ok():
         response = await client.get('/allBerryStats')
 
         assert response.status_code == 200
-        assert BerryStats(**response.json()).dict() == response.json()

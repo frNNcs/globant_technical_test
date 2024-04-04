@@ -2,7 +2,9 @@ import asyncio
 import collections
 
 import httpx
-from fastapi import APIRouter
+from fastapi import APIRouter, status
+from fastapi.encoders import jsonable_encoder
+from fastapi.responses import JSONResponse
 from httpx import Response
 
 from api.constants import ERRORS, POKEAPI_URL
@@ -19,16 +21,19 @@ router = APIRouter()
     tags=["berries"],
     description="Get all berries stats! 🎉",
 )
-async def read_root():
+async def read_root() -> JSONResponse:
     berries_names_list : list[str] = []
-    request_tasks : list[asyncio.Task] = []
+    request_tasks : list[asyncio.Task[int]] = []
 
     results: Response = httpx.get(f"{POKEAPI_URL}/berry/?limit=500")
 
     if results.status_code != 200:
-        return {
-            'error': ERRORS.COULD_NOT_RETRIEVE_DATA
-        }
+        return JSONResponse(
+            content=jsonable_encoder({
+                'error': ERRORS.COULD_NOT_RETRIEVE_DATA
+            }),
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
 
     for berry_url, berry_name in (
         (r['url'], r['name']) for r in results.json()['results']
@@ -42,26 +47,22 @@ async def read_root():
         request_tasks.append(berry_growth_time_task)
         berries_names_list.append(berry_name)
 
-    berry_growth_times = await asyncio.gather(*request_tasks)
+    berry_growth_times : list[int] = await asyncio.gather(*request_tasks)
 
-    berries_stats = {
-        'berries_names': berries_names_list,
-        'min_growth_time': _(min(berry_growth_times)),
-        'median_growth_time': _(sum(berry_growth_times) / len(berry_growth_times)),
-        'max_growth_time': _(max(berry_growth_times)),
-        'variance_growth_time': _(max(berry_growth_times) - min(berry_growth_times)),
-        'mean_growth_time': _(sum(berry_growth_times) / len(berry_growth_times)),
-        'frequency_growth_time': dict(collections.OrderedDict({
+    berries_stats = BerryStats(
+        berries_names=berries_names_list,
+        min_growth_time=_(min(berry_growth_times)),
+        median_growth_time=_(sum(berry_growth_times) / len(berry_growth_times)),
+        max_growth_time=_(max(berry_growth_times)),
+        variance_growth_time=_(max(berry_growth_times) - min(berry_growth_times)),
+        mean_growth_time=_(sum(berry_growth_times) / len(berry_growth_times)),
+        frequency_growth_time=dict(collections.OrderedDict({
             time: berry_growth_times.count(time)
             for time in berry_growth_times
         }))
-    }
+    )
 
-    try:
-        BerryStats.validate(berries_stats)
-    except ValueError:
-        return {
-            'error': ERRORS.INVALID_DATA
-        }
-
-    return berries_stats
+    return JSONResponse(
+        content=jsonable_encoder(berries_stats),
+        status_code=status.HTTP_200_OK
+    )
