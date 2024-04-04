@@ -1,11 +1,26 @@
-.vscode/
 .git/
 .github/
-.venv/
-__pycache__/
-.pytest_cache/
 .gitignore
+
+# python
+__pycache__/
+venv/
+
+# pytest
+.pytest.ini
+.pytest_cache/
+requirements/dev.txt
+
+# vscode
+.vscode/
+.editorconfig
+config.code-workspace
+
+# Containers
+Procfile
 Dockerfile
 docker-compose.yml
-Procfile
+.flake8
+
+# README
 README.md
