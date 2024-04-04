@@ -1,0 +1,11 @@
+.vscode/
+.git/
+.github/
+.venv/
+__pycache__/
+.pytest_cache/
+.gitignore
+Dockerfile
+docker-compose.yml
+Procfile
+README.md
