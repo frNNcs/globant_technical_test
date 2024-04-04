@@ -4,7 +4,7 @@ from api.constants import POKEAPI_URL
 from api.models.berry import Berry
 
 
-async def fetch_berry(id: int):
+async def fetch_berry(id: int) -> Berry:
     async with httpx.AsyncClient() as client:
         response = await client.get(f"{POKEAPI_URL}/berry/{id}/")
         response.raise_for_status()
