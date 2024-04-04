@@ -1,14 +1,21 @@
 from pydantic import BaseModel
 
 
-class BerryFirmness(BaseModel):
+class BaseAttribute(BaseModel):
     name: str
     url: str
 
+    @property
+    def id(self) -> int:
+        return int(self.url.split("/")[-2])
 
-class BerryFlavor(BaseModel):
-    name: str
-    url: str
+
+class BerryFirmness(BaseAttribute):
+    pass
+
+
+class BerryFlavor(BaseAttribute):
+    pass
 
 
 class BerryFlavorMap(BaseModel):
