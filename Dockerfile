@@ -5,9 +5,9 @@ ENV PYTHONDONTWRITEBYTECODE 1
 
 WORKDIR /app
 
-COPY requirements/base.txt requirements.txt
-COPY requirements/dev.txt requirements-test.txt
+COPY requirements/base.txt requirements/base.txt
+COPY requirements/dev.txt requirements/dev.txt
 
-RUN pip install -r requirements.txt
+RUN pip install -r requirements/base.txt
 
 COPY . .
