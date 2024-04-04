@@ -31,8 +31,8 @@ jobs:
               env:
                   PYTHONPATH: ${{ github.workspace }}
 
-            - name: Test with pytest
+            - name: Test with pytest and coverage
               run: |
-                  pytest
+                coverage run -m pytest
               env:
                   PYTHONPATH: ${{ github.workspace }}
