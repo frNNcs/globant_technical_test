@@ -6,6 +6,7 @@ ENV PYTHONDONTWRITEBYTECODE 1
 WORKDIR /app
 
 COPY requirements/base.txt requirements.txt
+COPY requirements/dev.txt requirements-test.txt
 
 RUN pip install -r requirements.txt
 

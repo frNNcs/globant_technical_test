@@ -13,5 +13,8 @@
     "python.analysis.typeCheckingMode": "strict",
     "python.testing.pytestArgs": ["tests"],
     "python.testing.pytestEnabled": true,
-    "python.testing.unittestEnabled": false
+    "python.testing.unittestEnabled": false,
+    "[github-actions-workflow]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    }
 }
