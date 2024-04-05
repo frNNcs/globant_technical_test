@@ -127,7 +127,7 @@ class Berry(BaseModel):
         Returns:
             list[Berry]: A list of berry objects.
         """
-        tasks = [cls.get_by_id(id) for id in id_list]
+        tasks = [cls.cache_get_by_id(id) for id in id_list]
         return await asyncio.gather(*tasks)
 
     @classmethod
@@ -152,6 +152,12 @@ class Berry(BaseModel):
 
         except Exception as e:
             raise ValueError(f"Could not parse berries: {e}")
+
+    @classmethod
+    async def clear_cache(cls):
+        """Clear the cache of all berries."""
+        await redis_client.delete("berry:*")  # type: ignore
+        return True
 
 
 class BerryStats(BaseModel):

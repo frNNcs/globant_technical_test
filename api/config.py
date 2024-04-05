@@ -6,11 +6,12 @@ from redis.asyncio.client import Redis
 
 load_dotenv()
 
-REDIS_URL = os.environ.get("REDIS_URL", "redis://redis:6379")
+REDIS_HOST = os.environ.get("REDIS_HOST", "redis")
+REDIS_PORT = int(os.environ.get("REDIS_PORT", 6379))
 CACHE_TIME = int(os.environ.get("CACHE_TIME", 60 * 60 * 10))
 
 redis_client : Redis = redis.Redis(
-    host='redis',
-    port=6379,
+    host=REDIS_HOST,
+    port=REDIS_PORT,
     decode_responses=True
 )
