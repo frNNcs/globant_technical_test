@@ -52,10 +52,6 @@ time curl -X GET http://127.0.0.1:800o/allBerryStats
             "24": 12
         }
     }
-
-0.00s user 0.01s system 0% cpu 55.375 total
---> decreese time using asyncio.
-0.01s user 0.01s system 0% cpu 31.564 total
 ```
 
 ## Data
