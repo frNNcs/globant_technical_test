@@ -14,16 +14,16 @@ jobs:
         steps:
             - uses: actions/checkout@v3
 
-            - name: UnitTest with pytest
+            - name: "Start containers for testing and install requirements."
               run: |
                 docker-compose up -d
-                docker-compose exec app pip3 install -r requirements-test.txt
+                docker-compose exec -it app pip3 install -r requirements-test.txt
 
             - name: "Wait for docker to finish installing."
               run: sleep 30
 
             - name: "Staic linting with flake8"
-              run: docker-compose exec app flake8
+              run: docker-compose exec -it app flake8
 
             - name: "Test coverage with pytest"
-              run: docker-compose exec app coverage run -m pytest
+              run: docker-compose exec -it app coverage run -m pytest
