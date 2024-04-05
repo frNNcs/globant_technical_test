@@ -10,7 +10,14 @@ services:
             context: .
             dockerfile: Dockerfile
             target: app
+        env_file: .env.prod
         ports:
             - "8000:8000"
         command: sh -c "uvicorn main:app --host 0.0.0.0 --port 8000"
+        restart: unless-stopped
+
+    redis:
+        image: redis:7.2.4-alpine3.19
+        ports:
+            - "6379:6379"
         restart: unless-stopped

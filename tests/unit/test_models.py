@@ -1,41 +1,9 @@
+import asyncio
+
 import pytest
 
 from api.models.berry import (Berry, BerryFirmness, BerryFlavor,
                               BerryFlavorMap, BerryItem, NaturalGiftType)
-
-
-def test_berry_firmness():
-    firmness = BerryFirmness(
-        name='soft',
-        url='https://pokeapi.co/api/v2/berry-firmness/2/'
-    )
-    assert firmness.name == 'soft'
-    assert firmness.url == 'https://pokeapi.co/api/v2/berry-firmness/2/'
-    assert firmness.id == 2
-
-
-def test_berry_flavor():
-    flavor = BerryFlavor(
-        name='spicy',
-        url='https://pokeapi.co/api/v2/berry-flavor/1/'
-    )
-    assert flavor.name == 'spicy'
-    assert flavor.url == 'https://pokeapi.co/api/v2/berry-flavor/1/'
-    assert flavor.id == 1
-
-
-def test_berry_flavor_map():
-    flavor_map = BerryFlavorMap(
-        flavor=BerryFlavor(
-            name='spicy',
-            url='https://pokeapi.co/api/v2/berry-flavor/1/'
-        ),
-        potency=10
-    )
-    assert flavor_map.flavor.name == 'spicy'
-    assert flavor_map.flavor.url == 'https://pokeapi.co/api/v2/berry-flavor/1/'
-    assert flavor_map.flavor.id == 1
-    assert flavor_map.potency == 10
 
 
 @pytest.fixture
@@ -73,6 +41,40 @@ def berry() -> Berry:
     )
 
 
+def test_berry_firmness():
+    firmness = BerryFirmness(
+        name='soft',
+        url='https://pokeapi.co/api/v2/berry-firmness/2/'
+    )
+    assert firmness.name == 'soft'
+    assert firmness.url == 'https://pokeapi.co/api/v2/berry-firmness/2/'
+    assert firmness.id == 2
+
+
+def test_berry_flavor():
+    flavor = BerryFlavor(
+        name='spicy',
+        url='https://pokeapi.co/api/v2/berry-flavor/1/'
+    )
+    assert flavor.name == 'spicy'
+    assert flavor.url == 'https://pokeapi.co/api/v2/berry-flavor/1/'
+    assert flavor.id == 1
+
+
+def test_berry_flavor_map():
+    flavor_map = BerryFlavorMap(
+        flavor=BerryFlavor(
+            name='spicy',
+            url='https://pokeapi.co/api/v2/berry-flavor/1/'
+        ),
+        potency=10
+    )
+    assert flavor_map.flavor.name == 'spicy'
+    assert flavor_map.flavor.url == 'https://pokeapi.co/api/v2/berry-flavor/1/'
+    assert flavor_map.flavor.id == 1
+    assert flavor_map.potency == 10
+
+
 def test_berry(berry: Berry):
     assert berry.id == 1
     assert berry.name == 'cheri'
@@ -96,4 +98,17 @@ def test_berry(berry: Berry):
     assert berry.natural_gift_type.name == 'fire'
     assert berry.natural_gift_type.url == 'https://pokeapi.co/api/v2/type/10/'
     assert berry.natural_gift_type.id == 10
+    assert berry.url == 'https://pokeapi.co/api/v2/berry/1/'
     assert str(berry) == 'cheri'
+
+
+@pytest.mark.asyncio
+async def test_get_berry_generate_cache():
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    try:
+        await Berry.clear_cache()
+        berry = await Berry.cache_get_by_id(1)
+        assert berry.id == 1
+    finally:
+        loop.close()

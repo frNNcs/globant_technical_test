@@ -4,29 +4,34 @@ A Poke-berries statistics API.
 
 ## Commands
 
-### Start fast-api server
-
+### Run dev server
 ```bash
-uvicorn main:app --reload --port 8001
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements/dev.txt
+uvicorn main:app --reload --port 8000
 ```
 
-### Check Endpoint
-
+## Run containered server
 ```bash
-curl -X GET http://127.0.0.1:8001/allBerryStats
+docker compose up -d
 ```
 
-### Test
-
+### Testing and lighting
 ```bash
 python3 -m pytest
 python3 -m flake8
 ```
 
+### Check Endpoint
+```bash
+curl -X GET http://127.0.0.1:8000/allBerryStats
+```
+
 ### Benchmark
 
 ```bash
-time curl -X GET http://127.0.0.1:8001/allBerryStats
+time curl -X GET http://127.0.0.1:800o/allBerryStats
     {
         "berries_names": ["cheri", ...],
         "min_growth_time": 2,
@@ -65,3 +70,49 @@ time curl -X GET http://127.0.0.1:8001/allBerryStats
 -   [flake8](https://github.com/pycqa/flake8/)
 -   [Uvicorn](https://github.com/encode/uvicorn)
 -   [PokeApi](https://pokeapi.co/docs/v2#berries-section)
+
+---
+<details>
+
+<summary>General rules:</summary>
+
+-   Commit your changes to a public repository in GitHub.
+-   Add a README.md with instructions to run the code.
+
+Support the following endpoints
+
+GET /allBerryStats
+
+This endpoint should consume an external API to get the proper info, The documentation page for the data source is at [https://pokeapi.co/docs/v2#berries](https://pokeapi.co/docs/v2#berries)
+
+Response:
+
+{
+    "berries_names": [...],
+    "min_growth_time": "" // time, int
+    "median_growth_time": "", // time, float
+    "max_growth_time": "" // time, int
+    "variance_growth_time": "" // time, float
+    "mean_growth_time": "", // time, float
+    "frequency_growth_time": "", // time, {growth_time: frequency, ...}
+}
+
+-   The data must be human-readable.
+-   Use environment variables for configuration.
+-   The response must include the content-type header (application/json)
+-   Code must be tested with pytest.
+
+For extra points (all of this is optional):
+
+-   Upload and deploy the solution to a free cloud service for example python anywhere or equivalent.
+-   Use a containering system like docker
+-   Use a cache to speed up the queries.
+-   Use a Python library (example: Matplotlib) to create a Histogram graph and display the image in a plain html in a new endpoint.
+
+Please approach this task as an opportunity to showcase your proficiency and attention to detail. While there is no immediate urgency, I kindly ask that you provide us with an estimated time of completion at your earliest convenience. This will help us plan our review process accordingly.
+
+Take the necessary time to ensure quality and accuracy in your work. We value thoroughness over speed and look forward to seeing your solution.
+
+Thank you for your participation in this assessment stage. Should you have any questions or require further clarification on the task, please do not hesitate to reach out.
+
+</details>
