@@ -1,11 +1,24 @@
 {
-	"folders": [
-		{
-			"path": "."
-		},
-		{
-			"path": "../../../Obsidian/001 Projects/Personal/Prueba Tecnica Globant"
-		}
-	],
-	"settings": {}
+    "folders": [
+        {
+            "path": "."
+        },
+        {
+            "path": "../../../Obsidian/001 Projects/Personal/Prueba Tecnica Globant"
+        }
+    ],
+    "settings": {
+        "redisXplorer.config": {
+            "profiles": [
+                {
+                    "name": "globant_technical_test",
+                    "host": "localhost",
+                    "accessKey": "",
+                    "filter": "*",
+                    "port": "6379"
+                }
+            ],
+            "scanLimit": 200
+        }
+    }
 }
