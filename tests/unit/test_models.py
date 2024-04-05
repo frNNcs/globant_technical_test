@@ -1,3 +1,5 @@
+import asyncio
+
 import pytest
 
 from api.models.berry import (Berry, BerryFirmness, BerryFlavor,
@@ -101,6 +103,12 @@ def test_berry(berry: Berry):
 
 
 @pytest.mark.asyncio
-async def test_berry_cache_get_by_id():
-    berry = await Berry.cache_get_by_id(1)
-    assert berry.id == 1
+async def test_get_berry_generate_cache():
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    try:
+        await Berry.clear_cache()
+        berry = await Berry.cache_get_by_id(1)
+        assert berry.id == 1
+    finally:
+        loop.close()
