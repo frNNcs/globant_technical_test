@@ -1,5 +1,7 @@
 # Prueba tecnica Globant
 
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.dev/frNNcs/globant_technical_test)
+
 A Poke-berries statistics API.
 
 ## Commands
